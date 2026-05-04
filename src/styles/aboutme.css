@@ -1,0 +1,346 @@
+/* ══════════════════════════════════════════
+   ABOUT ME — CASSETTE LINER NOTES
+══════════════════════════════════════════ */
+
+.booklet {
+  font-family: "DotGothic16", monospace;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  height: 100vh;
+  overflow: hidden;
+  padding-top: 50px; /* navbar height */
+  background: var(--darkred);
+}
+
+/* ══ LEFT: cassette cover ══ */
+.cassette-cover {
+  background: var(--darkred);
+  color: var(--yellow);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 2px solid var(--yellow);
+  height: 100%;
+  overflow: hidden;
+}
+
+.cassette-cover-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.am-eyebrow {
+  font-family: "Silkscreen", monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  opacity: 0.45;
+  border-bottom: 1px solid rgba(255, 255, 119, 0.2);
+  padding-bottom: 6px;
+  margin-bottom: 1.8rem;
+  display: block;
+}
+
+.am-eyebrow--dark {
+  color: var(--darkred);
+  opacity: 0.55;
+  border-bottom-color: rgba(142, 22, 6, 0.15);
+  margin-bottom: 1rem;
+}
+
+.am-avatar {
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgba(255, 255, 119, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Silkscreen", monospace;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--yellow);
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.am-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(255, 255, 119, 0.2);
+  pointer-events: none;
+}
+
+.am-name {
+  font-family: "Silkscreen", monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--yellow);
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+
+.am-role {
+  font-size: 12px;
+  color: var(--yellow);
+  opacity: 0.45;
+  letter-spacing: 1px;
+  margin-bottom: 1.8rem;
+}
+
+.am-tracklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.am-track {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  font-size: 13px;
+  color: var(--yellow);
+  opacity: 0.6;
+  border-bottom: 1px dotted rgba(255, 255, 119, 0.12);
+  padding: 8px 0;
+}
+
+.am-track-num {
+  font-family: "Silkscreen", monospace;
+  font-size: 10px;
+  opacity: 0.4;
+  flex-shrink: 0;
+  width: 18px;
+}
+
+/* ══ MUSIC VISUALIZER ══ */
+.am-cover-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.am-visualizer {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 30px;
+}
+
+.am-vis-bar {
+  background: rgba(255, 255, 119, 0.5);
+  width: 3px;
+  flex-shrink: 0;
+  border-radius: 1px 1px 0 0;
+  transform-origin: bottom;
+}
+
+.am-copyright {
+  font-family: "Silkscreen", monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: var(--yellow);
+  opacity: 0.2;
+}
+
+/* ══ RIGHT: liner notes ══ */
+.liner-notes {
+  background: var(--yellow);
+  padding: 2.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.liner-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 0;
+}
+
+.liner-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.liner-bio {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--darkred);
+  opacity: 0.85;
+  margin: 0;
+}
+
+.liner-bio strong {
+  font-weight: 700;
+  opacity: 1;
+  color: var(--darkred);
+}
+
+/* ══ SKILLS GRID ══ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.skill-pill {
+  border: 1.5px dashed rgba(142, 22, 6, 0.3);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: default;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.skill-pill:hover {
+  border-color: var(--darkred);
+  border-style: solid;
+  background: rgba(142, 22, 6, 0.06);
+}
+
+.skill-cat {
+  font-family: "Silkscreen", monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--darkred);
+  opacity: 0.4;
+}
+
+.skill-name {
+  font-family: "Silkscreen", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--darkred);
+}
+
+/* ══ CREDITS ══ */
+.liner-credits {
+  font-size: 14px;
+  line-height: 2;
+  color: var(--darkred);
+  opacity: 0.55;
+  font-style: italic;
+  border-top: 1px solid rgba(142, 22, 6, 0.12);
+  padding-top: 1rem;
+}
+
+.liner-credits strong {
+  font-style: normal;
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* ══ LEFT PANEL FOOTER ══ */
+.am-footer-credits {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 119, 0.1);
+  margin-top: 4px;
+}
+
+.am-credit-made {
+  font-family: "DotGothic16", arial;
+  font-size: 17px;
+  font-weight: bold;
+  color: var(--yellow);
+  opacity: 0.7;
+}
+
+.am-credit-made-link {
+  font-family: "DotGothic16", arial;
+  font-size: 17px;
+  font-weight: bold;
+  color: var(--yellow);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.am-credit-made-link:hover {
+  color: #ff6600;
+}
+
+.am-credit-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 119, 0.3);
+  padding: 5px 10px;
+  text-decoration: none;
+  color: var(--yellow);
+  transition: background 0.2s, color 0.2s;
+  width: fit-content;
+}
+
+.am-credit-github:hover {
+  background: var(--yellow);
+  color: var(--darkred);
+}
+
+.am-credit-github:hover .am-git-icon { color: var(--darkred); }
+
+.am-git-icon {
+  width: 16px; height: 16px;
+  color: var(--yellow);
+  flex-shrink: 0;
+}
+
+.am-credit-handle {
+  font-family: "DotGothic16", arial;
+  font-size: 13px;
+  font-weight: bold;
+  color: inherit;
+}
+
+.am-credit-copy {
+  font-family: "DotGothic16", arial;
+  font-size: 11px;
+  color: var(--yellow);
+  opacity: 0.3;
+}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 768px) {
+  .booklet {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+
+  .cassette-cover {
+    height: auto;
+    border-right: none;
+    border-bottom: 2px solid var(--yellow);
+    padding: 2rem 1.5rem;
+  }
+
+  .liner-notes {
+    height: auto;
+    overflow: visible;
+    padding: 2rem 1.5rem;
+  }
+
+  .liner-content {
+    min-height: unset;
+  }
+
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 400px) {
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .am-name { font-size: 1.1rem; }
+}
