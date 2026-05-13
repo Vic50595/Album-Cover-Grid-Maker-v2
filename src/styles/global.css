@@ -1067,3 +1067,15 @@ section {
   .vinyl-slide { left: 260px; width: 260px; height: 260px; }
   .vinyl-box:hover .vinyl-panel, .vinyl-box--open .vinyl-panel { width: 140px; }
 }
+
+.album { cursor: grab; }
+.album:active { cursor: grabbing; }
+
+.s3-slot--filled img { cursor: grab; }
+.s3-slot--filled img:active { cursor: grabbing; }
+
+.s3-slot--drop-hover {
+  outline: 2px dashed #fff;
+  outline-offset: -4px;
+  background: rgba(255, 255, 255, 0.08);
+}

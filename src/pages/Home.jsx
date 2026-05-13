@@ -12,30 +12,71 @@ export default function Home() {
   const [selectedAlbums, setSelectedAlbums] = useState([])
   const [lastGridUrl, setLastGridUrl] = useState(null)
 
+  function scrollToSection(id) {
+    const el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   function handleSelectGrid(cols, rows) {
     setGridCols(cols)
     setGridRows(rows)
     setSelectedAlbums(prev => prev.slice(0, cols * rows))
+    scrollToSection('section3')
+  }
+
+  function handleDownloadComplete(url) {
+    setLastGridUrl(url)
+    scrollToSection('section4')
   }
 
   function handleAddAlbum(album) {
     const maxAlbums = gridCols * gridRows
     setSelectedAlbums(prev => {
-      if (prev.length >= maxAlbums) return prev
-      return [
-        ...prev,
-        {
-          id: album.collectionId,
-          image: album.artworkUrl100.replace('100x100', '300x300'),
-          title: album.collectionName,
-          artist: album.artistName,
-        },
-      ]
+      const filled = prev.filter(Boolean).length
+      if (filled >= maxAlbums) return prev
+      const arr = prev.slice()
+      let i = 0
+      while (i < maxAlbums && arr[i]) i++
+      arr[i] = {
+        id: album.collectionId,
+        image: album.artworkUrl100.replace('100x100', '300x300'),
+        title: album.collectionName,
+        artist: album.artistName,
+      }
+      return arr
+    })
+  }
+
+  function handleAddAlbumAt(index, album) {
+    const maxAlbums = gridCols * gridRows
+    if (index >= maxAlbums) return
+    setSelectedAlbums(prev => {
+      const arr = prev.slice()
+      while (arr.length <= index) arr.push(null)
+      if (arr[index]) return prev
+      arr[index] = album
+      return arr
+    })
+  }
+
+  function handleMoveAlbum(fromIndex, toIndex) {
+    if (fromIndex === toIndex) return
+    setSelectedAlbums(prev => {
+      const arr = prev.slice()
+      while (arr.length <= Math.max(fromIndex, toIndex)) arr.push(null)
+      ;[arr[fromIndex], arr[toIndex]] = [arr[toIndex], arr[fromIndex]]
+      while (arr.length && !arr[arr.length - 1]) arr.pop()
+      return arr
     })
   }
 
   function handleRemoveAlbum(index) {
-    setSelectedAlbums(prev => prev.filter((_, i) => i !== index))
+    setSelectedAlbums(prev => {
+      const arr = prev.slice()
+      arr[index] = null
+      while (arr.length && !arr[arr.length - 1]) arr.pop()
+      return arr
+    })
   }
 
   return (
@@ -107,7 +148,9 @@ export default function Home() {
             gridRows={gridRows}
             selectedAlbums={selectedAlbums}
             onRemove={handleRemoveAlbum}
-            onDownload={setLastGridUrl}
+            onAddAt={handleAddAlbumAt}
+            onMove={handleMoveAlbum}
+            onDownload={handleDownloadComplete}
           />
         </div>
       </section>

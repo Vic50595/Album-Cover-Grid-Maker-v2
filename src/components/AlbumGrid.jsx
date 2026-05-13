@@ -1,13 +1,15 @@
 import { useRef, useEffect, useState } from 'react'
 
-export default function AlbumGrid({ gridCols, gridRows, selectedAlbums, onRemove, onDownload }) {
+export default function AlbumGrid({ gridCols, gridRows, selectedAlbums, onRemove, onAddAt, onMove, onDownload }) {
   const maxAlbums = gridCols * gridRows
-  const isFull = selectedAlbums.length === maxAlbums
-  const progressPct = Math.round((selectedAlbums.length / maxAlbums) * 100)
+  const filledCount = selectedAlbums.filter(Boolean).length
+  const isFull = filledCount === maxAlbums
+  const progressPct = Math.round((filledCount / maxAlbums) * 100)
 
   const panelRef = useRef(null)
   const headerRef = useRef(null)
   const [cellSize, setCellSize] = useState(80)
+  const [dropIndex, setDropIndex] = useState(null)
 
   // Recalculate cell size whenever grid dimensions or panel size changes
   useEffect(() => {
@@ -52,6 +54,7 @@ export default function AlbumGrid({ gridCols, gridRows, selectedAlbums, onRemove
 
     const images = []
     for (const album of selectedAlbums) {
+      if (!album) { images.push(null); continue }
       try {
         const res = await fetch(album.image)
         const blob = await res.blob()
@@ -99,7 +102,7 @@ export default function AlbumGrid({ gridCols, gridRows, selectedAlbums, onRemove
           <div>
             <span className="s3-eyebrow">Your Grid</span>
             <div className="s3-grid-count">
-              {selectedAlbums.length}<span className="s3-grid-count-max">/{maxAlbums}</span>
+              {filledCount}<span className="s3-grid-count-max">/{maxAlbums}</span>
             </div>
           </div>
           <button
@@ -125,11 +128,43 @@ export default function AlbumGrid({ gridCols, gridRows, selectedAlbums, onRemove
       >
         {Array.from({ length: maxAlbums }).map((_, i) => {
           const album = selectedAlbums[i]
+          const isHover = dropIndex === i
           return (
-            <div key={i} className={`s3-slot${album ? ' s3-slot--filled' : ''}`}>
+            <div
+              key={i}
+              className={`s3-slot${album ? ' s3-slot--filled' : ''}${isHover ? ' s3-slot--drop-hover' : ''}`}
+              onDragOver={e => {
+                e.preventDefault()
+                e.dataTransfer.dropEffect = e.dataTransfer.types.includes('application/x-grid-index') ? 'move' : 'copy'
+              }}
+              onDragEnter={() => setDropIndex(i)}
+              onDragLeave={() => setDropIndex(prev => (prev === i ? null : prev))}
+              onDrop={e => {
+                e.preventDefault()
+                setDropIndex(null)
+                const gridIdxRaw = e.dataTransfer.getData('application/x-grid-index')
+                if (gridIdxRaw !== '') {
+                  const from = parseInt(gridIdxRaw, 10)
+                  if (!Number.isNaN(from) && onMove) onMove(from, i)
+                  return
+                }
+                const payload = e.dataTransfer.getData('application/x-album-json')
+                if (payload && onAddAt) {
+                  try { onAddAt(i, JSON.parse(payload)) } catch {}
+                }
+              }}
+            >
               {album ? (
                 <>
-                  <img src={album.image} alt={album.title} />
+                  <img
+                    src={album.image}
+                    alt={album.title}
+                    draggable
+                    onDragStart={e => {
+                      e.dataTransfer.effectAllowed = 'move'
+                      e.dataTransfer.setData('application/x-grid-index', String(i))
+                    }}
+                  />
                   <button className="s3-remove-btn" onClick={() => onRemove(i)}>×</button>
                 </>
               ) : (

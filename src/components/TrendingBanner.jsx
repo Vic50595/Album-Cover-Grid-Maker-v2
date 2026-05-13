@@ -89,9 +89,30 @@ export default function TrendingBanner() {
               const link = album.link.attributes.href
 
               return (
-                <div className="album" key={`${name}-${i}`}>
-                  <a href={link} target="_blank" rel="noreferrer">
-                    <img src={image} alt={name} />
+                <div
+                  className="album"
+                  key={`${name}-${i}`}
+                  draggable
+                  onDragStart={e => {
+                    e.dataTransfer.effectAllowed = 'copy'
+                    e.dataTransfer.setData(
+                      'application/x-album-json',
+                      JSON.stringify({
+                        id: `trend-${name}-${artist}`,
+                        image: image.replace(/\/\d+x\d+bb/, '/300x300bb'),
+                        title: name,
+                        artist,
+                      })
+                    )
+                  }}
+                >
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noreferrer"
+                    draggable={false}
+                  >
+                    <img src={image} alt={name} draggable={false} />
                     <div className="info">
                       <p>{name}</p>
                       <small>{artist}</small>
