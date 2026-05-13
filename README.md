@@ -63,6 +63,11 @@
 | Deployment | Vercel |
 
 ---
+## ✏️ Site Map
+
+![Screenshot – sitemap](./public/images/sitemap-acgm.png)
+
+---
 
 ## 🚀 Getting Started
 
